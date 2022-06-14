@@ -6,6 +6,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 import { Link } from "react-router-dom";
 import auth from '../../../firebase.init';
+import SocialLogin from '../SocialLogin/SocialLogin';
 
 const Login = () => {
 
@@ -16,14 +17,20 @@ const Login = () => {
     const location = useLocation()
 
     let from = location.state?.from?.pathname || "/";
-
+    let errorElement;
     const [
         signInWithEmailAndPassword,
         user,
         loading,
         error,
     ] = useSignInWithEmailAndPassword(auth);
+    if (error) {
+        errorElement =
+            <div>
+                <p className='text-danger'>Error: {error?.message}</p>
+            </div>
 
+    }
     if (user) {
         navigate(from, { replace: true });
     }
@@ -45,25 +52,23 @@ const Login = () => {
             <h3 className='text-center m-4'>Please Login!!</h3>
             <Form onSubmit={handleLoginSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>Email address</Form.Label>
+
                     <Form.Control ref={emailRef} type="email" placeholder="Enter email" required />
-                    <Form.Text className="text-muted">
-                        We'll never share your email with anyone else.
-                    </Form.Text>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>Password</Form.Label>
+
                     <Form.Control ref={passRef} type="password" placeholder="Password" required />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                    <Form.Check type="checkbox" label="Check me out" />
-                </Form.Group>
-                <Button variant="primary" type="submit">
-                    Submit
+                <Button className='btn btn-info w-50 d-block mx-auto my-3' variant="primary" type="submit">
+                    Login
                 </Button>
-                <p> New in genious car service?<Link className='text-danger text-decoration-none' to='/register' onClick={registerHandle}> Please Register Now</Link> </p>
+
             </Form>
+            {errorElement}
+            <p> New in genious car service?<Link className='text-primary text-decoration-none' to='/register' onClick={registerHandle}> Please Register Now</Link> </p>
+
+            <SocialLogin></SocialLogin>
         </div>
 
     );
