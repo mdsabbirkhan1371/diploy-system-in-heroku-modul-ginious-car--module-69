@@ -1,24 +1,44 @@
 import React, { useRef } from 'react';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button'
-import { useNavigate } from 'react-router-dom';
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import { Link } from "react-router-dom";
+import auth from '../../../firebase.init';
 
 const Login = () => {
 
+    // get input value 
     const emailRef = useRef('');
     const passRef = useRef('');
     const navigate = useNavigate()
+    const location = useLocation()
+
+    let from = location.state?.from?.pathname || "/";
+
+    const [
+        signInWithEmailAndPassword,
+        user,
+        loading,
+        error,
+    ] = useSignInWithEmailAndPassword(auth);
+
+    if (user) {
+        navigate(from, { replace: true });
+    }
+
     const handleLoginSubmit = event => {
         event.preventDefault();
         const email = emailRef.current.value;
         const password = passRef.current.value;
-        console.log(email, password)
+        signInWithEmailAndPassword(email, password)
     }
-    const registerHandle = event => {
+
+    const registerHandle = () => {
         navigate('/register')
     }
+
     return (
 
         <div className="container w-50  p-3 rounded">
