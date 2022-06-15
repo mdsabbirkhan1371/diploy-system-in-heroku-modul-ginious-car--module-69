@@ -1,12 +1,17 @@
+import { async } from '@firebase/util';
+import { sendPasswordResetEmail } from 'firebase/auth';
 import React, { useRef } from 'react';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button'
-import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { useSendPasswordResetEmail, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import { Link } from "react-router-dom";
 import auth from '../../../firebase.init';
 import SocialLogin from '../SocialLogin/SocialLogin';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Loading from '../../Shared/Loading/Loading';
 
 const Login = () => {
 
@@ -24,6 +29,14 @@ const Login = () => {
         loading,
         error,
     ] = useSignInWithEmailAndPassword(auth);
+
+    const [sendPasswordResetEmail, sending, errorPassword] = useSendPasswordResetEmail(
+        auth
+    );
+
+    if (loading || sending) {
+        return <Loading></Loading>
+    }
     if (error) {
         errorElement =
             <div>
@@ -44,6 +57,17 @@ const Login = () => {
 
     const registerHandle = () => {
         navigate('/register')
+    }
+    const resetPassword = async () => {
+        const email = emailRef.current.value
+        if (email) {
+            await sendPasswordResetEmail(email)
+            toast('sent email')
+        }
+        else {
+            toast('Please Enter Your Email')
+        }
+
     }
 
     return (
@@ -67,8 +91,9 @@ const Login = () => {
             </Form>
             {errorElement}
             <p> New in genious car service?<Link className='text-primary text-decoration-none' to='/register' onClick={registerHandle}> Please Register Now</Link> </p>
-
+            <p> Forger Password?<button className='text-primary text-decoration-none btn btn-link' onClick={resetPassword}> Forget  Now</button> </p>
             <SocialLogin></SocialLogin>
+            <ToastContainer />
         </div>
 
     );
