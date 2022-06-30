@@ -1,9 +1,14 @@
 import React from 'react';
 
+import PageTitle from '../PageTitle/PageTitle';
+
 const About = () => {
     return (
         <div>
-            <h4>This is about section</h4>
+            <PageTitle title='About'></PageTitle>
+            {/* <Helmet>
+                <title>About- Genious Car Service</title>
+            </Helmet> */}
         </div>
     );
 };
