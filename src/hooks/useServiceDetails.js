@@ -5,7 +5,7 @@ const useServiceDetails = (serviceId) => {
     const [service, setService] = useState({});
 
     useEffect(() => {
-        const url = `http://localhost:5000/service/${serviceId}`;
+        const url = `https://blooming-beyond-27329.herokuapp.com/service/${serviceId}`;
 
         fetch(url)
             .then(res => res.json())

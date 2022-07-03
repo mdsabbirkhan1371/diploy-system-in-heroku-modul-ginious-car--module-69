@@ -54,7 +54,7 @@ const Login = () => {
         const email = emailRef.current.value;
         const password = passRef.current.value;
         await signInWithEmailAndPassword(email, password);
-        const { data } = await axios.post('http://localhost:5000/login', { email })
+        const { data } = await axios.post('https://blooming-beyond-27329.herokuapp.com/login', { email })
         localStorage.setItem('accessToken', data.accessToken)
         navigate(from, { replace: true })
 

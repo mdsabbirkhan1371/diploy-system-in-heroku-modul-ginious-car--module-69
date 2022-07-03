@@ -36,7 +36,7 @@ const Checkout = () => {
         }
 
         // data load by axios 
-        axios.post('http://localhost:5000/order', order)
+        axios.post('https://blooming-beyond-27329.herokuapp.com/order', order)
             .then(respose => {
                 console.log(respose)
                 const { data } = respose

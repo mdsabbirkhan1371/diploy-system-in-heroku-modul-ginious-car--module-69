@@ -7,7 +7,7 @@ const MangeService = () => {
     const deleteItem = id => {
         const procced = window.confirm('Are You Sure want to Removed this Item?');
         if (procced) {
-            const url = `http://localhost:5000/service/${id}`
+            const url = `https://blooming-beyond-27329.herokuapp.com/service/${id}`
             fetch(url, {
                 method: "DELETE"
             })
