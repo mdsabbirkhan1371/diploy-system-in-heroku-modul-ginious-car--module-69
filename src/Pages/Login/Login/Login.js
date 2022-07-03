@@ -13,7 +13,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Loading from '../../Shared/Loading/Loading';
 import PageTitle from '../../PageTitle/PageTitle';
-
+import axios from 'axios'
 const Login = () => {
 
     // get input value 
@@ -46,14 +46,18 @@ const Login = () => {
 
     }
     if (user) {
-        navigate(from, { replace: true });
+        // navigate(from, { replace: true });
     }
 
-    const handleLoginSubmit = event => {
+    const handleLoginSubmit = async event => {
         event.preventDefault();
         const email = emailRef.current.value;
         const password = passRef.current.value;
-        signInWithEmailAndPassword(email, password)
+        await signInWithEmailAndPassword(email, password);
+        const { data } = await axios.post('http://localhost:5000/login', { email })
+        localStorage.setItem('accessToken', data.accessToken)
+        navigate(from, { replace: true })
+
     }
 
     const registerHandle = () => {
