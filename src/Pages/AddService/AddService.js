@@ -5,7 +5,7 @@ const AddService = () => {
 
     const { register, handleSubmit } = useForm();
     const onSubmit = data => {
-        console.log(data)
+
         const url = `https://blooming-beyond-27329.herokuapp.com/service`
         fetch(url, {
             method: 'POST',

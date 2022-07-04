@@ -35,8 +35,19 @@ const Orders = () => {
 
 
     return (
-        <div>
+        <div className='w-50 mx-auto border border-primary my-5 p-3'>
             <h3>Your Orders:{orders?.length}</h3>
+
+            <ol>
+                {
+                    orders.map(order => <div>
+                        <li key={order._id}>
+                            order name: {order.service} : address: {order.address}
+                            order email: {order.email}
+                        </li>
+                    </div>)
+                }
+            </ol>
 
         </div>
     );

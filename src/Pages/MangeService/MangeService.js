@@ -20,7 +20,7 @@ const MangeService = () => {
         }
     }
     return (
-        <div className='w-50 mx-auto'>
+        <div className='w-50 mx-auto my-3 border border-success p-4'>
             <h3>Manage Your Service !!!</h3>
             {
                 services.map(service => <div key={service._id}>
