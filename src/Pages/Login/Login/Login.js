@@ -13,7 +13,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Loading from '../../Shared/Loading/Loading';
 import PageTitle from '../../PageTitle/PageTitle';
-import axios from 'axios'
+
+import useToken from '../../../hooks/useToken';
 const Login = () => {
 
     // get input value 
@@ -34,6 +35,7 @@ const Login = () => {
     const [sendPasswordResetEmail, sending, errorPassword] = useSendPasswordResetEmail(
         auth
     );
+    const [token] = useToken(user)
 
     if (loading || sending) {
         return <Loading></Loading>
@@ -45,8 +47,8 @@ const Login = () => {
             </div>
 
     }
-    if (user) {
-        // navigate(from, { replace: true });
+    if (token) {
+        navigate(from, { replace: true });
     }
 
     const handleLoginSubmit = async event => {
@@ -54,10 +56,6 @@ const Login = () => {
         const email = emailRef.current.value;
         const password = passRef.current.value;
         await signInWithEmailAndPassword(email, password);
-        const { data } = await axios.post('https://blooming-beyond-27329.herokuapp.com/login', { email })
-        localStorage.setItem('accessToken', data.accessToken)
-        navigate(from, { replace: true })
-
     }
 
     const registerHandle = () => {
